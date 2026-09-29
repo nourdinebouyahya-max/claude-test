@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#F5F4F0">
+  <meta name="description" content="Adsolution agency ad accounts CRM preview">
+  <title>Adsolution CRM · Agency Ad Accounts</title>
+  <link rel="icon" type="image/png" href="/adsolution-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/brand.css">
+  <link rel="stylesheet" href="/features.css">
+  <link rel="stylesheet" href="/theme.css">
+  <script src="/crm.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#overview" aria-label="Adsolution CRM home"><img src="/logo-green.png" alt="Adsolution"><small>AGENCY AD ACCOUNTS · CRM</small><span class="collapsed-brand" aria-hidden="true"><img src="/adsolution-icon.png" alt=""></span></a>
+      <div class="side-label">WORKSPACE</div>
+      <nav id="nav" aria-label="Main navigation">
+        <a href="#overview" data-view="overview"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#overview"></use></svg></span> <span class="nav-label">Overview</span></a>
+        <a href="#inbox" data-view="inbox" title="Portal Inbox"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#activity"></use></svg></span> <span class="nav-label">Portal Inbox</span></a>
+        <a href="#clients" data-view="clients"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#person"></use></svg></span> <span class="nav-label">Clients</span></a>
+        <a href="#accounts" data-view="accounts"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#accounts"></use></svg></span> <span class="nav-label">Ad Accounts</span></a>
+        <a href="#payments" data-view="payments"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#receipt"></use></svg></span> <span class="nav-label">Payments & Proofs</span></a>
+        <a href="#topups" data-view="topups"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#topup"></use></svg></span> <span class="nav-label">Top-ups</span></a>
+        <a href="#analytics" data-view="analytics"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#chart"></use></svg></span> <span class="nav-label">Analytics</span></a>
+        <a href="#managers" data-view="managers"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#people"></use></svg></span> <span class="nav-label">Managers</span></a>
+        <a href="/access" target="_top" title="People & access"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#person"></use></svg></span> <span class="nav-label">People & access</span></a>
+        <a href="#workflow" data-view="workflow"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#workflow"></use></svg></span> <span class="nav-label">Workflow</span></a>
+        <a href="#agency-spend" data-view="agency-spend" title="Agency Finance"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#finance"></use></svg></span> <span class="nav-label">Agency Finance</span></a>
+        <a href="#academy" data-view="academy" title="Academy"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#academy"></use></svg></span> <span class="nav-label">Academy</span></a>
+        <a href="#receiving-methods" data-view="receiving-methods" title="Payment Methods"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#payment"></use></svg></span> <span class="nav-label">Payment Methods</span></a>
+        <a href="#activity" data-view="activity"><span class="ico"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#activity"></use></svg></span> <span class="nav-label">Activity</span></a>
+      </nav>
+    </aside>
+    <div class="workspace">
+      <div class="demo-bar"><span class="demo-dot"></span> Adsolution Admin <span class="demo-sep">·</span> <span id="sync-status">Loading records…</span> <span class="sync-actions"><button id="import-browser" type="button" hidden>Import browser records</button><button id="export-backup" type="button">Export records</button></span></div>
+      <header class="topbar"><button class="menu-button" id="menu-button" aria-label="Collapse sidebar" aria-expanded="true" aria-controls="sidebar"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#menu"></use></svg></button><div class="breadcrumb">Adsolution <span>/</span> <strong id="crumb">Overview</strong></div><div class="top-actions"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#moon"></use></svg></span></button><span class="today" id="today"></span></div></header>
+      <main class="content" id="content" tabindex="-1"></main>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="modal" hidden><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-head"><div><span class="eyebrow">ADSOLUTION CRM</span><h2 id="modal-title"></h2></div><button class="icon-button" id="modal-close" aria-label="Close"><svg class="ui-icon" aria-hidden="true"><use href="/icons/ui.svg#close"></use></svg></button></div><div id="modal-content"></div></div></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
