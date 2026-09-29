@@ -1,5 +1,5 @@
 import { privateJson, sameOrigin } from "@/lib/admin";
-import { CURRENCIES, portalContext, proofExists, saveCrm, scopedClientIds } from "@/lib/portal";
+import { CURRENCIES, portalContext, proofExists, saveCrm, scopedClientIds, stamp } from "@/lib/portal";
 
 type Body = { clientId?: string; accountId?: string; amount?: number; currency?: string; amountUsd?: number; method?: string; reference?: string; proofKey?: string; proofName?: string; proofType?: string };
 
@@ -24,6 +24,7 @@ export async function POST(request: Request) {
     if (!body.proofKey || !(await proofExists(body.proofKey))) return privateJson({ error: "Upload the payment proof first." }, 400);
     const now = new Date().toISOString(), paymentId = `p${crypto.randomUUID()}`;
     state.payments.unshift({ id: paymentId, clientId: client.id, purpose: account ? "account" : "general", accountId: account?.id || "", amount, amountUsd: usd, currency: body.currency, method: body.method || "", reference: String(body.reference || "").trim(), proof: String(body.proofName || "proof").slice(0, 120), proofType: String(body.proofType || ""), proofKey: body.proofKey, status: "Pending", date: now.slice(0, 10), createdAt: now, source: "portal", requestedBy: user.email, requestedRole: grant.role });
+    stamp(state.payments[0], { by: user.email, role: grant.role, action: "requested" }, now);
     (state.activity ||= []).unshift({ text: `Payment proof submitted from portal · ${client.business}${account ? ` · ${account.name}` : ""}`, kind: "payment", recordId: paymentId, clientId: client.id, createdAt: now });
     const saved = await saveCrm(record, now);
     return saved.ok ? privateJson({ created: 1 }, 201) : privateJson({ error: saved.error }, saved.status);

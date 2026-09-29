@@ -24,6 +24,7 @@ export function SubmitForm({ mode, role, clients, accounts, methods, disabled, o
   async function submit() {
     if (disabled) { setMessage("Preview only. Sign in as this user to submit."); return; }
     if (topup && !accountId) { setMessage("Choose an ad account."); return; }
+    if (topup && methods.length && !method) { setMessage("Choose the bank or wallet you paid from."); return; }
     if (!(Number(amount) > 0) || !(usd > 0)) { setMessage("Enter the amount and its USD equivalent."); return; }
     if (topup && usd < 100) { setMessage("The minimum top-up is $100 USD equivalent."); return; }
     if (!topup && !file) { setMessage("Attach the payment proof."); return; }
@@ -51,19 +52,19 @@ export function SubmitForm({ mode, role, clients, accounts, methods, disabled, o
   return <section className="portal-panel portal-request">
     <h2>{topup ? "Request a top-up" : "Submit a payment proof"}</h2>
     <p>{topup ? "Pay the agency using one of the methods below, attach the proof and choose the ad account to fund." : "Send the proof for an ad account order or a general payment. The agency verifies it and updates the status."}</p>
-    {!!methods.length && <div className="portal-cards">{methods.map(m => <article className="portal-panel" key={m.id}><small>{m.currency} · {m.country || "Any country"}</small><h2>{m.name}</h2><dl><dt>Account holder</dt><dd>{m.holder}</dd><dt>Details</dt><dd>{m.details}</dd>{m.instructions && <><dt>Instructions</dt><dd>{m.instructions}</dd></>}</dl></article>)}</div>}
+    <div className="portal-request-foot"><label>{topup ? "Which bank or wallet will you pay from? *" : "Payment method"}<select value={method} onChange={e => setMethod(e.target.value)}><option value="">Choose a bank or wallet</option>{methods.map(m => <option key={m.id} value={m.name}>{m.name} · {m.currency}</option>)}</select></label></div>
+    {chosen && <article className="portal-panel portal-bank"><small>Send the money to · {chosen.currency}{chosen.country ? ` · ${chosen.country}` : ""}</small><h2>{chosen.name}</h2><dl><dt>Account holder</dt><dd>{chosen.holder}</dd><dt>Account / IBAN / wallet</dt><dd>{chosen.details}</dd>{chosen.instructions && <><dt>Instructions</dt><dd>{chosen.instructions}</dd></>}</dl></article>}
     <div className="portal-request-foot">
       {role === "manager" && <label>Client<select value={clientId} onChange={e => { setClientId(e.target.value); setAccountId(""); }}>{clients.map(c => <option key={c.id} value={c.id}>{c.business}</option>)}</select></label>}
       <label>{topup ? "Ad account" : "Payment for"}<select value={accountId} onChange={e => setAccountId(e.target.value)}>{!topup && <option value="">General payment</option>}{topup && <option value="">Choose an account</option>}{scoped.map(a => <option key={a.id} value={a.id}>{a.name}{a.accountId ? ` · ${a.accountId}` : ""}</option>)}</select></label>
       <label>Amount paid<input type="number" min="0.01" step="0.01" value={amount} onChange={e => setAmount(e.target.value)} /></label>
       <label>Currency<select value={currency} onChange={e => setCurrency(e.target.value)}>{CURRENCIES.map(c => <option key={c}>{c}</option>)}</select></label>
       {currency !== "USD" && <label>USD equivalent<input type="number" min="0.01" step="0.01" value={amountUsd} onChange={e => setAmountUsd(e.target.value)} /></label>}
-      <label>Payment method<input list={`methods-${mode}`} value={method} onChange={e => setMethod(e.target.value)} placeholder={chosen ? chosen.name : "e.g. CIH Bank"} /><datalist id={`methods-${mode}`}>{methods.map(m => <option key={m.id} value={m.name} />)}</datalist></label>
       <label>Reference / transaction ID<input value={reference} maxLength={200} onChange={e => setReference(e.target.value)} /></label>
       {topup && <label>Destination country<input value={country} maxLength={100} onChange={e => setCountry(e.target.value)} placeholder="Optional" /></label>}
       <label>Payment proof{topup ? " (recommended)" : ""}<input type="file" accept="image/png,image/jpeg,image/webp,application/pdf" onChange={e => setFile(e.target.files?.[0] || null)} /></label>
     </div>
-    {topup && account && usd > 0 && <p>Fee {account.feePercent}% · ${fee.toLocaleString("en-US")} · Net credited ${Math.max(0, usd - fee).toLocaleString("en-US")}</p>}
+    {topup && account && usd > 0 && <article className="portal-panel portal-bank"><h2>Top-up summary</h2><dl><dt>You send</dt><dd>{amount} {currency}{currency !== "USD" ? ` (≈ $${usd.toLocaleString("en-US")})` : ""}</dd><dt>Agency fee ({account.feePercent}% for {account.platform})</dt><dd>− ${fee.toLocaleString("en-US")}</dd><dt>Credited to the ad account</dt><dd><strong>${Math.max(0, usd - fee).toLocaleString("en-US")}</strong></dd></dl></article>}
     <button className="portal-primary" type="button" disabled={busy || disabled} onClick={submit}>{disabled ? "Preview only" : busy ? "Sending…" : topup ? "Send top-up request" : "Send payment proof"}</button>
     {message && <p role="status" className="portal-notice">{message}</p>}
   </section>;

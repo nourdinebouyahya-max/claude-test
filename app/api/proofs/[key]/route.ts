@@ -10,7 +10,7 @@ export async function GET(request: Request, context: { params: Promise<{ key: st
   if (!/^[0-9a-f-]{36}$/.test(key)) return privateJson({ error: "Invalid proof." }, 400);
   if (!admin) {
     const { record, grant } = await portalContext();
-    const ids = record && grant?.permissions.includes("payments") ? scopedClientIds(record.state, grant) : null;
+    const ids = record && (grant?.permissions.includes("payments")||grant?.permissions.includes("tasks")) ? scopedClientIds(record.state, grant) : null;
     if (!ids || !record!.state.payments.some(p => p.proofKey === key && ids.has(p.clientId))) {
       return privateJson({ error: "Proof unavailable." }, 403);
     }

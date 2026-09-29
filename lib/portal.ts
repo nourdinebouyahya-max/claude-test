@@ -1,7 +1,7 @@
 import { env } from "cloudflare:workers";
 import { getAuthUser } from "@/lib/crm-auth";
 import { grantFor, type CrmState } from "@/lib/portal-core";
-export { MANAGER_SECTIONS, CLIENT_SECTIONS, TASK_STATUSES, TASK_KINDS, grantFor, scopedClientIds, portalProjection } from "@/lib/portal-core";
+export { MANAGER_SECTIONS, CLIENT_SECTIONS, PLATFORM_FIELDS, applyTaskAction, rateFor, stamp, grantFor, scopedClientIds, portalProjection } from "@/lib/portal-core";
 export type { Grant, Section, RecordValue, CrmState } from "@/lib/portal-core";
 
 export async function readCrm(): Promise<{ revision: number; state: CrmState } | null> {
