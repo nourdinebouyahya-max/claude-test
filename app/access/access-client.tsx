@@ -9,9 +9,9 @@ type State = { clients:Entity[]; managers:Entity[]; accessGrants?:Grant[]; demoW
 const sections = [
   ["overview","Overview"],["clients","Clients"],["accounts","Ad accounts / subscriptions"],["topups","Top-ups"],
   ["payments","Payments"],["academy","Academy"],["activity","Activity"],["requestAccounts","Request ad accounts"],
-  ["requestTopups","Request top-ups"],["submitPayments","Submit payment proofs"]
+  ["requestTopups","Request top-ups"],["submitPayments","Submit payment proofs"],["tasks","Client requests inbox (managers only)"]
 ];
-const defaults = { manager:["overview","clients","accounts","topups","payments","requestAccounts","requestTopups","submitPayments"], client:["overview","accounts","topups","payments","academy","activity","requestAccounts","requestTopups","submitPayments"] };
+const defaults = { manager:["overview","clients","accounts","topups","payments","requestAccounts","requestTopups","submitPayments","tasks"], client:["overview","accounts","topups","payments","academy","activity","requestAccounts","requestTopups","submitPayments"] };
 
 export default function AccessClient() {
   const [state,setState] = useState<State|null>(null);
